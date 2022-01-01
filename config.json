@@ -1,0 +1,11 @@
+{
+  "projectPath": "~/IdeaProjects/",
+  "libPath": "~/libs/",
+  "defaultName": "default",
+  "libUrl": "https://steamwar.de/lib.php",
+  "additionalArgs": ["-d"],
+  "credentials": {
+    "username": "[EnterName]",
+    "password": "[EnterPW]"
+  }
+}
