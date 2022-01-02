@@ -23,7 +23,7 @@ public class Main {
         if(CLIConfig.IS_DEBUG) {
             Configurator.setRootLevel(Level.DEBUG);
         }
-        if(!CLIConfig.NO_UPDATE) {
+        if(CLIConfig.NO_UPDATE) {
             UpdateChecker.checkForUpdates();
         }
         logger.debug("Arguments: {}", Arrays.toString(allArgs));
