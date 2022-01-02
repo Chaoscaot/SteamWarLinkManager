@@ -1,7 +1,7 @@
 package de.chaos.swlnmngr;
 
 import de.chaos.swlnmngr.config.CLIConfig;
-import de.chaos.swlnmngr.config.Config;
+import de.chaos.swlnmngr.route.Router;
 import lombok.Getter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -19,12 +19,15 @@ public class Main {
 
     public static void main(String[] args) {
         logger.log(Level.INFO, "SteamWarLinkManager by Chaoscaot");
-        allArgs = new String[args.length + Config.ADDITIONAL_ARGS.length];
-        System.arraycopy(args, 0, allArgs, 0, args.length);
-        System.arraycopy(Config.ADDITIONAL_ARGS, 0, allArgs, args.length, Config.ADDITIONAL_ARGS.length);
+        allArgs = args;
         if(CLIConfig.IS_DEBUG) {
             Configurator.setRootLevel(Level.DEBUG);
         }
         logger.debug("Arguments: {}", Arrays.toString(allArgs));
+        if(CLIConfig.ARGS.length > 0) {
+            Router.route(CLIConfig.ARGS);
+        } else {
+
+        }
     }
 }

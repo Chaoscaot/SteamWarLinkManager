@@ -1,0 +1,1 @@
+java -jar target/SteamWarLinkManager.jar -i /home/chaos/IdeaProjects/swlnmngr/test/ install
