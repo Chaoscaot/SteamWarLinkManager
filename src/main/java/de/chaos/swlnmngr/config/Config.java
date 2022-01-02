@@ -16,10 +16,11 @@ public class Config {
 
     private static final File CONFIG_FILE = new File(CLIConfig.INSTALL_DIR, "config.json");
 
-    public static final String PROJECT_PATH;
+    public static final File PROJECT_PATH;
     public static final File LIB_PATH;
     public static final String DEFAULTS;
     public static final URI LIB_URL;
+    public static final boolean PRE_RELEASES;
 
     public static final String USERNAME;
     public static final String PASSWORD;
@@ -40,9 +41,10 @@ public class Config {
             System.exit(1);
         }
 
-        PROJECT_PATH = config.getString("projectPath");
+        PROJECT_PATH = new File(config.getString("projectPath"));
         LIB_PATH = new File(config.getString("libPath"));
         DEFAULTS = config.getString("defaultName");
+        PRE_RELEASES = config.getBoolean("preReleases");
         try {
             LIB_URL = new URI(config.getString("libUrl"));
         } catch (URISyntaxException e) {

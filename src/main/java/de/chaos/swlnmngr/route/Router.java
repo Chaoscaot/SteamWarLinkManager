@@ -1,9 +1,7 @@
 package de.chaos.swlnmngr.route;
 
 import de.chaos.swlnmngr.Main;
-import de.chaos.swlnmngr.route.routes.InstallRoute;
-import de.chaos.swlnmngr.route.routes.Route;
-import de.chaos.swlnmngr.route.routes.UpdateRoute;
+import de.chaos.swlnmngr.route.routes.*;
 
 import java.util.*;
 
@@ -12,7 +10,7 @@ public class Router {
     private static final List<Route> ROUTES;
 
     static {
-        ROUTES = List.of(new InstallRoute(), new UpdateRoute());
+        ROUTES = List.of(new InstallRoute(), new UpdateRoute(), new LinkRoute(), new NewRoute());
     }
 
     public static void route(String[] args) {
@@ -28,5 +26,10 @@ public class Router {
                 }
             }
         }
+    }
+
+    public static void printRoutes() {
+        Main.getLogger().info("Available Routes: ");
+        Main.getLogger().info("\t{}", ROUTES.stream().map(Route::getName).reduce((s, s2) -> s + ", " + s2).get());
     }
 }

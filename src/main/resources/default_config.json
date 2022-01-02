@@ -3,8 +3,7 @@
   "libPath": "~/libs/",
   "defaultName": "default",
   "libUrl": "https://steamwar.de/lib.php",
-  "credentials": {
-    "username": "[EnterName]",
-    "password": "[EnterPW]"
-  }
+  "preReleases": false,
+  "username": "[EnterName]",
+  "password": "[EnterPW]"
 }

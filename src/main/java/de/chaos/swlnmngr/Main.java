@@ -23,11 +23,14 @@ public class Main {
         if(CLIConfig.IS_DEBUG) {
             Configurator.setRootLevel(Level.DEBUG);
         }
+        if(!CLIConfig.NO_UPDATE) {
+            UpdateChecker.checkForUpdates();
+        }
         logger.debug("Arguments: {}", Arrays.toString(allArgs));
         if(CLIConfig.ARGS.length > 0) {
             Router.route(CLIConfig.ARGS);
         } else {
-
+            Router.printRoutes();
         }
     }
 }
