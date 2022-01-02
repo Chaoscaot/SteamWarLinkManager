@@ -44,7 +44,7 @@ public class CLIConfig {
         if(cli.hasOption("i")) {
             INSTALL_DIR = new File(cli.getOptionValue("i"));
         } else {
-            INSTALL_DIR = new File("~/.swlnmngr/");
+            INSTALL_DIR = new File(System.getProperty("user.home"), ".swlnmngr/").toPath().normalize().toFile();
         }
         if(cli.hasOption("c")) {
             CONFIG = new File(cli.getOptionValue("c"));

@@ -27,13 +27,19 @@ public class InstallRoute implements Route {
     public boolean route(String[] args) {
         File installDir = CLIConfig.INSTALL_DIR;
         if(!installDir.exists()) {
-            installDir.mkdir();
+            try {
+                Files.createDirectories(CLIConfig.INSTALL_DIR.toPath());
+            } catch (IOException e) {
+                Main.getLogger().error("Could not create Install Directory", e);
+                return false;
+            }
         }
 
         for (String defaultFile : defaultFiles) {
             String normalName = defaultFile.replace("default_", "");
             try {
                 Files.copy(Objects.requireNonNull(InstallRoute.class.getResourceAsStream("/" + defaultFile)), new File(CLIConfig.INSTALL_DIR, normalName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                new File(CLIConfig.INSTALL_DIR, normalName).setExecutable(true, true);
             } catch (IOException e) {
                 Main.getLogger().error("Could not create File", e);
                 return false;

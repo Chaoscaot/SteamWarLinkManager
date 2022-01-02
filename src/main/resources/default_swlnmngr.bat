@@ -1,1 +1,1 @@
-java -jar ./SteamWarLinkManager.jar
+java -jar ./SteamWarLinkManager.jar %*
