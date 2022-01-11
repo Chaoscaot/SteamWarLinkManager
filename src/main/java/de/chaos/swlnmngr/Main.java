@@ -12,7 +12,6 @@ import java.util.Arrays;
 
 public class Main {
 
-    @Getter
     private static final Logger logger = LogManager.getLogger(Main.class);
     @Getter
     private static String[] allArgs;
@@ -32,5 +31,9 @@ public class Main {
         } else {
             Router.printRoutes();
         }
+    }
+
+    public static Logger getLogger() {
+        return logger;
     }
 }
