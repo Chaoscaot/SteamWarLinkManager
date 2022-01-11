@@ -54,7 +54,8 @@ public class CLIConfig {
                         .getLocation()
                         .toURI()
                         .getPath())
-                        .getCanonicalFile();
+                        .getCanonicalFile()
+                        .getParentFile();
                 INSTALL_DIR_IS_SET = false;
             } catch (IOException | URISyntaxException e) {
                 Main.getLogger().error(e.getMessage(), e);
