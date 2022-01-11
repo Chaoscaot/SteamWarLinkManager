@@ -2,26 +2,23 @@ package de.chaos.swlnmngr.route.routes;
 
 import de.chaos.swlnmngr.Main;
 import de.chaos.swlnmngr.config.CLIConfig;
-import mslinks.ShellLink;
 import org.apache.commons.lang.SystemUtils;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
 import java.util.Objects;
 
 public class InstallRoute implements Route {
 
-    private static final String[] defaultFiles = new String[] {"default_swlnmngr.bat", "default_swlnmngr.sh"};
+    private static final String[] defaultFiles = new String[] {"default_swlnmngr.bat", "default_swlnmngr.sh", "default_swlnmngr_admin.bat"};
 
     @Override
     public String getName() {
@@ -61,10 +58,8 @@ public class InstallRoute implements Route {
             }
         } else if(SystemUtils.IS_OS_WINDOWS) {
             try {
-                ShellLink link = ShellLink.createLink(new File(CLIConfig.INSTALL_DIR, "swlnmngr.bat").getAbsolutePath(), new File(CLIConfig.INSTALL_DIR, "swlnmngr.lnk").getAbsolutePath()).setWorkingDir(CLIConfig.INSTALL_DIR.getAbsolutePath());
-                link.getHeader().getLinkFlags().setRunAsUser();
-                link.saveTo(new File(CLIConfig.INSTALL_DIR, "swlnmngr.lnk").getAbsolutePath());
                 Files.writeString(new File(CLIConfig.INSTALL_DIR, "swlnmngr.bat").toPath(), Files.readString(new File(CLIConfig.INSTALL_DIR, "swlnmngr.bat").toPath()).replace("${iDir}", CLIConfig.INSTALL_DIR.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+                Files.writeString(new File(CLIConfig.INSTALL_DIR, "swlnmngr_admin.bat").toPath(), Files.readString(new File(CLIConfig.INSTALL_DIR, "swlnmngr_admin.bat").toPath()).replace("${iDir}", CLIConfig.INSTALL_DIR.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
             } catch (IOException e) {
                 Main.getLogger().error("Could not create Link", e);
                 return false;
