@@ -1,7 +1,6 @@
 package de.chaos.swlnmngr;
 
 import de.chaos.swlnmngr.config.Config;
-import lombok.experimental.UtilityClass;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -13,8 +12,9 @@ import org.json.JSONTokener;
 import java.io.IOException;
 import java.net.URI;
 
-@UtilityClass
 public class UpdateChecker {
+
+    private UpdateChecker() {}
 
     private static final URI repoUrl = URI.create("https://steamwar.de/devlabs/api/v1/repos/Chaoscaot/SteamwarLinkManager/releases?draft=false&pre-release=" + Config.PRE_RELEASES + "&page=1&limit=1");
 

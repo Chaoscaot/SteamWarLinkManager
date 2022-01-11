@@ -2,7 +2,6 @@ package de.chaos.swlnmngr;
 
 import de.chaos.swlnmngr.config.CLIConfig;
 import de.chaos.swlnmngr.route.Router;
-import lombok.Getter;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,9 +11,7 @@ import java.util.Arrays;
 
 public class Main {
 
-    @Getter
     private static final Logger logger = LogManager.getLogger(Main.class);
-    @Getter
     private static String[] allArgs;
 
     public static void main(String[] args) {
@@ -32,5 +29,13 @@ public class Main {
         } else {
             Router.printRoutes();
         }
+    }
+
+    public static Logger getLogger() {
+        return logger;
+    }
+
+    public static String[] getAllArgs() {
+        return allArgs;
     }
 }

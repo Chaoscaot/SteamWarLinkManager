@@ -1,6 +1,7 @@
 @echo off
 :: Variables
 SET JavaHome=java
+SET Home=${iDir}
 
 :: Code
 title Request Admin
@@ -11,6 +12,6 @@ title SteamWarLinkManager
 set args=--help
 set /p args=Arguments:
 echo %args%
-%JavaHome% -jar ${iDir}\SteamWarLinkManager.jar %args% %*
+%JavaHome% -jar ${iDir}\SteamWarLinkManager.jar %args% %* -i %Home%
 pause
 exit

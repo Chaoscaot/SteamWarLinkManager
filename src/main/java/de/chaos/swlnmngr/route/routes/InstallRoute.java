@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
@@ -28,9 +27,12 @@ public class InstallRoute implements Route {
     @Override
     public boolean route(String[] args) {
         File installDir = CLIConfig.INSTALL_DIR;
+        if (!CLIConfig.INSTALL_DIR_IS_SET) {
+            installDir = new File(System.getProperty("user.home", ".swlnmngr"));
+        }
         if(!installDir.exists()) {
             try {
-                Files.createDirectories(CLIConfig.INSTALL_DIR.toPath());
+                Files.createDirectories(installDir.toPath());
             } catch (IOException e) {
                 Main.getLogger().error("Could not create Install Directory", e);
                 return false;
@@ -40,8 +42,8 @@ public class InstallRoute implements Route {
         for (String defaultFile : defaultFiles) {
             String normalName = defaultFile.replace("default_", "");
             try {
-                Files.copy(Objects.requireNonNull(InstallRoute.class.getResourceAsStream("/" + defaultFile)), new File(CLIConfig.INSTALL_DIR, normalName).toPath(), StandardCopyOption.REPLACE_EXISTING);
-                new File(CLIConfig.INSTALL_DIR, normalName).setExecutable(true, true);
+                Files.copy(Objects.requireNonNull(InstallRoute.class.getResourceAsStream("/" + defaultFile)), new File(installDir, normalName).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                new File(installDir, normalName).setExecutable(true, true);
             } catch (IOException e) {
                 Main.getLogger().error("Could not create File", e);
                 return false;
@@ -50,16 +52,16 @@ public class InstallRoute implements Route {
 
         if(SystemUtils.IS_OS_UNIX) {
             try {
-                Files.deleteIfExists(new File(CLIConfig.INSTALL_DIR, "swlnmngr").toPath());
-                Files.createSymbolicLink(new File(CLIConfig.INSTALL_DIR, "swlnmngr").toPath(), new File(CLIConfig.INSTALL_DIR, "swlnmngr.sh").toPath());
+                Files.deleteIfExists(new File(installDir, "swlnmngr").toPath());
+                Files.createSymbolicLink(new File(installDir, "swlnmngr").toPath(), new File(installDir, "swlnmngr.sh").toPath());
             } catch (IOException e) {
                 Main.getLogger().error("Could not create SymLink", e);
                 return false;
             }
         } else if(SystemUtils.IS_OS_WINDOWS) {
             try {
-                Files.writeString(new File(CLIConfig.INSTALL_DIR, "swlnmngr.bat").toPath(), Files.readString(new File(CLIConfig.INSTALL_DIR, "swlnmngr.bat").toPath()).replace("${iDir}", CLIConfig.INSTALL_DIR.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
-                Files.writeString(new File(CLIConfig.INSTALL_DIR, "swlnmngr_admin.bat").toPath(), Files.readString(new File(CLIConfig.INSTALL_DIR, "swlnmngr_admin.bat").toPath()).replace("${iDir}", CLIConfig.INSTALL_DIR.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+                Files.writeString(new File(installDir, "swlnmngr.bat").toPath(), Files.readString(new File(installDir, "swlnmngr.bat").toPath()).replace("${iDir}", installDir.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
+                Files.writeString(new File(installDir, "swlnmngr_admin.bat").toPath(), Files.readString(new File(installDir, "swlnmngr_admin.bat").toPath()).replace("${iDir}", installDir.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
             } catch (IOException e) {
                 Main.getLogger().error("Could not create Link", e);
                 return false;
@@ -104,7 +106,7 @@ public class InstallRoute implements Route {
         try {
             File jar = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
             Main.getLogger().debug(jar);
-            Files.copy(jar.toPath(), new File(CLIConfig.INSTALL_DIR, "SteamWarLinkManager.jar").toPath(), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(jar.toPath(), new File(installDir, "SteamWarLinkManager.jar").toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (URISyntaxException e) {
             Main.getLogger().error("Could parse Jar Location", e);
             return false;
