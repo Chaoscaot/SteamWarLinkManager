@@ -9,7 +9,7 @@ import kotlin.system.exitProcess
 class UpdateChecker {
     companion object {
         @JvmStatic
-        val repoURL :URI = URI.create("https://steamwar.de/devlabs/Chaoscaot/SteamwarLinkManager/releases/latest")
+        val repoURL :URI = URI.create("https://github.com/Chaoscaot/SteamwarLinkManager/releases/latest")
 
         @JvmStatic
         val download = URI.create("$repoURL/download/")
