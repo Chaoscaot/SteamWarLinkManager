@@ -4,6 +4,8 @@ import de.chaos.swlnmngr.Main;
 import org.apache.commons.cli.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class CLIConfig {
 
@@ -12,6 +14,7 @@ public class CLIConfig {
     public static final File CONFIG;
     public static final File INSTALL_DIR;
     public static final String[] ARGS;
+    public static final boolean INSTALL_DIR_IS_SET;
 
     static {
         Options options = new Options();
@@ -43,8 +46,21 @@ public class CLIConfig {
         NO_UPDATE = cli.hasOption("u");
         if(cli.hasOption("i")) {
             INSTALL_DIR = new File(cli.getOptionValue("i"));
+            INSTALL_DIR_IS_SET = true;
         } else {
-            INSTALL_DIR = new File(System.getProperty("user.home"), ".swlnmngr/").toPath().normalize().toFile();
+            try {
+                INSTALL_DIR = new File(CLIConfig.class.getProtectionDomain()
+                        .getCodeSource()
+                        .getLocation()
+                        .toURI()
+                        .getPath())
+                        .getCanonicalFile()
+                        .getParentFile();
+                INSTALL_DIR_IS_SET = false;
+            } catch (IOException | URISyntaxException e) {
+                Main.getLogger().error(e.getMessage(), e);
+                throw new SecurityException(e);
+            }
         }
         if(cli.hasOption("c")) {
             CONFIG = new File(cli.getOptionValue("c"));
