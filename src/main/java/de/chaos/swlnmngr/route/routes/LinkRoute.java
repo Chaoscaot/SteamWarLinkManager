@@ -2,6 +2,7 @@ package de.chaos.swlnmngr.route.routes;
 
 import de.chaos.swlnmngr.Main;
 import de.chaos.swlnmngr.config.Config;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,13 @@ public class LinkRoute implements Route {
         }
         File link = new File(projectDir, "lib");
         try {
-            Files.deleteIfExists(link.toPath());
+            if(link.exists()) {
+                if(link.isDirectory()) {
+                    FileUtils.deleteDirectory(link);
+                } else {
+                    FileUtils.delete(link);
+                }
+            }
             Main.getLogger().debug(libsFile);
             Main.getLogger().debug(link);
             Path linkPath = Files.createSymbolicLink(link.toPath(), libsFile.toPath());
