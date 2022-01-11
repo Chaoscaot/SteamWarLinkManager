@@ -19,7 +19,7 @@ public class CLIConfig {
         options.addOption(new Option("d", "debug", false, "Set the Log Level to Debug"));
         options.addOption(new Option("c", "config", true, "Use another Config File"));
         options.addOption(new Option("i", "installdir", true, "Use other Install Dir"));
-        options.addOption(new Option("u", "no-update", false, "Disable the Auto-Update Checker"));
+        options.addOption(new Option("u", "update-checker", false, "Enable the Auto-Update Checker"));
 
         CommandLine cli = null;
         CommandLineParser parser = new DefaultParser();

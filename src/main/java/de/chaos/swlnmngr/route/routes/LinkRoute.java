@@ -34,7 +34,7 @@ public class LinkRoute implements Route {
             Main.getLogger().error("No Project with name: {}", args[0]);
             return false;
         }
-        File link = new File(projectDir, "libs");
+        File link = new File(projectDir, "lib");
         try {
             Files.deleteIfExists(link.toPath());
             Main.getLogger().debug(libsFile);
