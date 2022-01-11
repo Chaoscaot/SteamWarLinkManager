@@ -24,6 +24,6 @@ jobs:
         run: mvn --file pom.xml
       - name: Upload Build
         uses: actions/upload-artifact@v2
-          with:
+        with:
             name: SteamWarLinkManager
             path: target/SteamWarLinkManager.jar
