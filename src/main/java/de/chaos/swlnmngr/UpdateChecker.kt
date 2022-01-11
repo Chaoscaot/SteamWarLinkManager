@@ -1,6 +1,5 @@
 package de.chaos.swlnmngr
 
-import de.chaos.swlnmngr.config.Config
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
 import org.apache.http.impl.client.CloseableHttpClient
