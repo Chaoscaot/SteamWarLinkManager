@@ -1,6 +1,7 @@
 package de.chaos.swlnmngr.config;
 
 import de.chaos.swlnmngr.Main;
+import de.chaos.swlnmngr.route.Router;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -23,6 +24,7 @@ public class CLIConfig {
         options.addOption(new Option("c", "config", true, "Use another Config File"));
         options.addOption(new Option("i", "installdir", true, "Use other Install Dir"));
         options.addOption(new Option("u", "update-checker", false, "Enable the Auto-Update Checker"));
+        options.addOption(new Option(null, "update-the-fucking-jar-please", false, "Self Describing"));
 
         CommandLine cli = null;
         CommandLineParser parser = new DefaultParser();
@@ -66,6 +68,9 @@ public class CLIConfig {
             CONFIG = new File(cli.getOptionValue("c"));
         } else {
             CONFIG = new File(INSTALL_DIR, "config.json");
+        }
+        if(cli.hasOption("update-the-fucking-jar-please")) {
+            Router.route(new String[] {"update-jar"});
         }
     }
 }

@@ -9,7 +9,7 @@ class Router {
 
     companion object {
         @JvmStatic
-        val ROUTES :List<Route> = listOf(InstallRoute(), UpdateRoute(), LinkRoute(), NewRoute())
+        val ROUTES :List<Route> = listOf(InstallRoute(), UpdateRoute(), LinkRoute(), NewRoute(), UpdateJarRoute())
 
         @JvmStatic
         fun route(args: Array<String>) {

@@ -1,8 +1,6 @@
 package de.chaos.swlnmngr
 
-import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
-import org.apache.http.impl.client.CloseableHttpClient
 import org.apache.http.impl.client.HttpClients
 import java.io.IOException
 import java.net.URI
@@ -11,14 +9,17 @@ import kotlin.system.exitProcess
 class UpdateChecker {
     companion object {
         @JvmStatic
-        val repoURL :URI = URI.create("https://steamwar.de/devlabs/repos/Chaoscaot/SteamwarLinkManager/releases")
+        val repoURL :URI = URI.create("https://steamwar.de/devlabs/Chaoscaot/SteamwarLinkManager/releases/latest")
 
         @JvmStatic
-        public val CURRENT_VERSION :String;
+        val download = URI.create("$repoURL/download/")
+
+        @JvmStatic
+        public val CURRENT_VERSION :String
 
         init {
             try {
-                CURRENT_VERSION = String(UpdateChecker::class.java.getResourceAsStream("/jar.version").readAllBytes());
+                CURRENT_VERSION = String(UpdateChecker::class.java.getResourceAsStream("/jar.version").readAllBytes())
             } catch (e :IOException) {
                 Main.getLogger().error("Could not read Version", e)
                 exitProcess(1)
@@ -28,14 +29,21 @@ class UpdateChecker {
 
         @JvmStatic
         fun checkForUpdates() {
-            val client :CloseableHttpClient = HttpClients.createMinimal()
-            client.use { client: CloseableHttpClient -> {
-                val get = HttpGet(repoURL);
-                val response :CloseableHttpResponse = client.execute(get)
-                response.use { response: CloseableHttpResponse -> {
+            val client = HttpClients.custom().disableRedirectHandling().build()
+            Main.getLogger().debug("Checking for Updates...")
+            val get = HttpGet(repoURL)
+            Main.getLogger().debug(get)
+            val response = client.execute(get)
 
-                }}
-            }}
+            Main.getLogger().debug(response.statusLine.toString())
+            val latest = response.getFirstHeader("Location").value.replaceFirst(".*/".toRegex(), "")
+            if (latest != CURRENT_VERSION) {
+                Main.getLogger().info("The Running Jar is not the Latest release Version\n\tYour Version: {}\n\tLatest Release Version: {}", CURRENT_VERSION, latest)
+                Main.getLogger().info("Download the Latest Jar here: https://steamwar.de/devlabs/Chaoscaot/SteamwarLinkManager/releases/latest")
+            }
+
+            response.close()
+            client.close()
         }
     }
 }
