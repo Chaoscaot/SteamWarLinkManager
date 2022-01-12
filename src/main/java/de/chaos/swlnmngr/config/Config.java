@@ -1,6 +1,6 @@
 package de.chaos.swlnmngr.config;
 
-import de.chaos.swlnmngr.Main;
+import de.chaos.swlnmngr.MainKt;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -32,7 +32,7 @@ public class Config {
                 config = new JSONObject(new JSONTokener(new FileInputStream(CONFIG_FILE)));
             }
         } catch (Exception e) {
-            Main.getLogger().fatal("Could not load Config", e);
+            MainKt.getLogger().fatal("Could not load Config", e);
             System.exit(1);
         }
 
@@ -43,7 +43,7 @@ public class Config {
         try {
             LIB_URL = new URI(config.getString("libUrl"));
         } catch (URISyntaxException e) {
-            Main.getLogger().error("libUrl is not a URL", e);
+            MainKt.getLogger().error("libUrl is not a URL", e);
             System.exit(1);
             throw new SecurityException(e);
         }

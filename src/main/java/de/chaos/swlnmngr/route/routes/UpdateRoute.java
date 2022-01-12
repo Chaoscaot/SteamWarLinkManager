@@ -1,6 +1,6 @@
 package de.chaos.swlnmngr.route.routes;
 
-import de.chaos.swlnmngr.Main;
+import de.chaos.swlnmngr.MainKt;
 import de.chaos.swlnmngr.config.Config;
 import org.apache.http.Header;
 import org.apache.http.auth.AuthScope;
@@ -44,19 +44,19 @@ public class UpdateRoute implements Route {
                 .build()) {
             HttpGet httpGet = new HttpGet(Config.LIB_URL);
             try (CloseableHttpResponse response = client.execute(httpGet)) {
-                Main.getLogger().debug(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase());
+                MainKt.getLogger().debug(response.getStatusLine().getStatusCode() + " " + response.getStatusLine().getReasonPhrase());
                 for (Header allHeader : response.getAllHeaders()) {
-                    Main.getLogger().debug(allHeader.getName() + ": " + allHeader.getValue());
+                    MainKt.getLogger().debug(allHeader.getName() + ": " + allHeader.getValue());
                 }
 
-                Main.getLogger().info("Writing libs...");
+                MainKt.getLogger().info("Writing libs...");
 
                 ZipInputStream zis = new ZipInputStream(response.getEntity().getContent());
                 byte[] buffer = new byte[2048];
                 ZipEntry entry;
                 while ((entry = zis.getNextEntry()) != null) {
                     Path filePath = defaultLibs.toPath().resolve(entry.getName());
-                    Main.getLogger().debug("Inflating {}...", entry.getName());
+                    MainKt.getLogger().debug("Inflating {}...", entry.getName());
 
                     try (FileOutputStream fos = new FileOutputStream(filePath.toFile());
                          BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length)) {

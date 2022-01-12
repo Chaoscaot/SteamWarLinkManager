@@ -1,6 +1,6 @@
 package de.chaos.swlnmngr.config;
 
-import de.chaos.swlnmngr.Main;
+import de.chaos.swlnmngr.MainKt;
 import de.chaos.swlnmngr.route.Router;
 import org.apache.commons.cli.*;
 
@@ -31,9 +31,9 @@ public class CLIConfig {
         HelpFormatter formatter = new HelpFormatter();
 
         try {
-            cli = parser.parse(options, Main.getAllArgs());
+            cli = parser.parse(options, MainKt.getAllArgs());
         } catch (ParseException e) {
-            Main.getLogger().error(e.getMessage());
+            MainKt.getLogger().error(e.getMessage());
             formatter.printHelp("swlnmngr", options, true);
             System.exit(1);
         }
@@ -60,7 +60,7 @@ public class CLIConfig {
                         .getParentFile();
                 INSTALL_DIR_IS_SET = false;
             } catch (IOException | URISyntaxException e) {
-                Main.getLogger().error(e.getMessage(), e);
+                MainKt.getLogger().error(e.getMessage(), e);
                 throw new SecurityException(e);
             }
         }
@@ -68,9 +68,6 @@ public class CLIConfig {
             CONFIG = new File(cli.getOptionValue("c"));
         } else {
             CONFIG = new File(INSTALL_DIR, "config.json");
-        }
-        if(cli.hasOption("update-the-fucking-jar-please")) {
-            Router.route(new String[] {"update-jar"});
         }
     }
 }

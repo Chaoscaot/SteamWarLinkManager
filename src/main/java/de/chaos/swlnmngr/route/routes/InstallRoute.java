@@ -1,6 +1,6 @@
 package de.chaos.swlnmngr.route.routes;
 
-import de.chaos.swlnmngr.Main;
+import de.chaos.swlnmngr.MainKt;
 import de.chaos.swlnmngr.config.CLIConfig;
 import org.apache.commons.lang.SystemUtils;
 import org.json.JSONObject;
@@ -34,7 +34,7 @@ public class InstallRoute implements Route {
             try {
                 Files.createDirectories(installDir.toPath());
             } catch (IOException e) {
-                Main.getLogger().error("Could not create Install Directory", e);
+                MainKt.getLogger().error("Could not create Install Directory", e);
                 return false;
             }
         }
@@ -45,7 +45,7 @@ public class InstallRoute implements Route {
                 Files.copy(Objects.requireNonNull(InstallRoute.class.getResourceAsStream("/" + defaultFile)), new File(installDir, normalName).toPath(), StandardCopyOption.REPLACE_EXISTING);
                 new File(installDir, normalName).setExecutable(true, true);
             } catch (IOException e) {
-                Main.getLogger().error("Could not create File", e);
+                MainKt.getLogger().error("Could not create File", e);
                 return false;
             }
         }
@@ -55,7 +55,7 @@ public class InstallRoute implements Route {
                 Files.deleteIfExists(new File(installDir, "swlnmngr").toPath());
                 Files.createSymbolicLink(new File(installDir, "swlnmngr").toPath(), new File(installDir, "swlnmngr.sh").toPath());
             } catch (IOException e) {
-                Main.getLogger().error("Could not create SymLink", e);
+                MainKt.getLogger().error("Could not create SymLink", e);
                 return false;
             }
         } else if(SystemUtils.IS_OS_WINDOWS) {
@@ -63,7 +63,7 @@ public class InstallRoute implements Route {
                 Files.writeString(new File(installDir, "swlnmngr.bat").toPath(), Files.readString(new File(installDir, "swlnmngr.bat").toPath()).replace("${iDir}", installDir.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
                 Files.writeString(new File(installDir, "swlnmngr_admin.bat").toPath(), Files.readString(new File(installDir, "swlnmngr_admin.bat").toPath()).replace("${iDir}", installDir.getAbsolutePath()), StandardCharsets.UTF_8, StandardOpenOption.TRUNCATE_EXISTING);
             } catch (IOException e) {
-                Main.getLogger().error("Could not create Link", e);
+                MainKt.getLogger().error("Could not create Link", e);
                 return false;
             }
 
@@ -81,15 +81,15 @@ public class InstallRoute implements Route {
                 }
                 Files.writeString(configFile.toPath(), configStr, StandardOpenOption.CREATE_NEW);
             } catch (IOException e) {
-                Main.getLogger().error("Could not copy Config File", e);
+                MainKt.getLogger().error("Could not copy Config File", e);
                 return false;
             }
         } else {
             try {
                 JSONObject defaultConfig = new JSONObject(new JSONTokener(Objects.requireNonNull(InstallRoute.class.getResourceAsStream("/default_config.json"))));
-                Main.getLogger().info(defaultConfig);
+                MainKt.getLogger().info(defaultConfig);
                 JSONObject currentConfig = new JSONObject(Files.readString(configFile.toPath()));
-                Main.getLogger().info(currentConfig);
+                MainKt.getLogger().info(currentConfig);
                 for (String s : defaultConfig.keySet()) {
                     if(currentConfig.has(s)) continue;
                     currentConfig.put(s, defaultConfig.get(s));
@@ -98,20 +98,20 @@ public class InstallRoute implements Route {
                         currentConfig.toString(2),
                         StandardOpenOption.TRUNCATE_EXISTING);
             } catch (IOException e) {
-                Main.getLogger().error("Could write Config File", e);
+                MainKt.getLogger().error("Could write Config File", e);
                 return false;
             }
         }
 
         try {
             File jar = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-            Main.getLogger().debug(jar);
+            MainKt.getLogger().debug(jar);
             Files.copy(jar.toPath(), new File(installDir, "SteamWarLinkManager.jar").toPath(), StandardCopyOption.REPLACE_EXISTING);
         } catch (URISyntaxException e) {
-            Main.getLogger().error("Could parse Jar Location", e);
+            MainKt.getLogger().error("Could parse Jar Location", e);
             return false;
         } catch (IOException e) {
-            Main.getLogger().error("Could not Copy JarFile", e);
+            MainKt.getLogger().error("Could not Copy JarFile", e);
             return false;
         }
         return true;
