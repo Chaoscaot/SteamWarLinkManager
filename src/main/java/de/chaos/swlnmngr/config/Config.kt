@@ -9,7 +9,7 @@ import java.net.URI
 import java.net.URISyntaxException
 import kotlin.system.exitProcess
 
-data class Config(val projectPath :File, val libPath :File, val default :String, val libUrl :URI, val preRelease :Boolean, val userName :String, val password :String)
+data class Config(val projectPath :File, val libPath :File, val default :String, val libUrl :URI, val userName :String, val password :String)
 
 val config :Config by lazy {
     val conf = try {
@@ -26,7 +26,6 @@ val config :Config by lazy {
     val projectPath = File(conf.getString("projectPath"))
     val libPath = File(conf.getString("libPath"))
     val default = conf.getString("defaultName")
-    val preRelease = conf.getBoolean("prerelease")
     val libUrl = try {
         URI(conf.getString("libUrl"))
     } catch (e :URISyntaxException) {
@@ -37,5 +36,5 @@ val config :Config by lazy {
     val userName = conf.getString("username")
     val password = conf.getString("password")
 
-    Config(projectPath, libPath, default, libUrl, preRelease, userName, password)
+    Config(projectPath, libPath, default, libUrl, userName, password)
 }
