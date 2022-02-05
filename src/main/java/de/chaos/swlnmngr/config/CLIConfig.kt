@@ -73,7 +73,7 @@ val cliConfig: CLIConfig by lazy {
     val installDir = if(cli.hasOption("i")) File(cli.getOptionValue("i")) else {
         try {
             File(
-                Dummy().javaClass.protectionDomain
+                CLIConfig::class.java.protectionDomain
                 .codeSource
                 .location
                 .toURI()
