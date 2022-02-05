@@ -16,7 +16,7 @@ class UpdateChecker {
         try {
             CURRENT_VERSION = String(UpdateChecker::class.java.getResourceAsStream("/jar.version").readAllBytes())
         } catch (e :IOException) {
-            logger.error("Could not read Version", e)
+            getLogger().error("Could not read Version", e)
             exitProcess(1)
             throw SecurityException(e)
         }
@@ -24,17 +24,17 @@ class UpdateChecker {
 
     fun checkForUpdates() {
         val client = HttpClients.custom().disableRedirectHandling().build()
-        logger.debug("Checking for Updates...")
+        getLogger().debug("Checking for Updates...")
         val get = HttpGet(repoURL)
-        logger.debug(get)
+        getLogger().debug(get)
         val response = client.execute(get)
 
-        logger.debug(response.statusLine.toString())
+        getLogger().debug(response.statusLine.toString())
         val latest = response.getFirstHeader("Location").value.replaceFirst(".*/".toRegex(), "")
         if (latest != CURRENT_VERSION) {
-            logger.info("The Running Jar is not the Latest release Version\n\tYour Version: {}\n\tLatest Release Version: {}",
+            getLogger().info("The Running Jar is not the Latest release Version\n\tYour Version: {}\n\tLatest Release Version: {}",
                 CURRENT_VERSION, latest)
-            logger.info("Download the Latest Jar here: https://steamwar.de/devlabs/Chaoscaot/SteamwarLinkManager/releases/latest")
+            getLogger().info("Download the Latest Jar here: https://steamwar.de/devlabs/Chaoscaot/SteamwarLinkManager/releases/latest")
         }
 
         response.close()
