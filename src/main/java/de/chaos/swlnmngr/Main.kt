@@ -3,11 +3,12 @@ package de.chaos.swlnmngr
 import de.chaos.swlnmngr.config.cliConfig
 import de.chaos.swlnmngr.route.printRoutes
 import de.chaos.swlnmngr.route.route
+import de.chaos.swlnmngr.route.routes.Route
 import org.apache.logging.log4j.Level
 import org.apache.logging.log4j.LogManager.getLogger
 import org.apache.logging.log4j.core.config.Configurator
 
-val logger = getLogger()
+val logger = getLogger(Route::javaClass)
 get() = field!!
 
 var allArgs : Array<String>? = null

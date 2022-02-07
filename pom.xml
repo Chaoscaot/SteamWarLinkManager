@@ -6,7 +6,7 @@
 
     <groupId>de.chaos</groupId>
     <artifactId>swlnmngr</artifactId>
-    <version>v0.3.1</version>
+    <version>v0.3.2</version>
     <name>SteamWarLinkManager</name>
 
     <properties>
@@ -32,7 +32,7 @@
                             <transformers>
                                 <transformer implementation=
                                                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>de.chaos.swlnmngr.Main</mainClass>
+                                    <mainClass>de.chaos.swlnmngr.MainKt</mainClass>
                                 </transformer>
                             </transformers>
                             <finalName>${project.name}</finalName>
