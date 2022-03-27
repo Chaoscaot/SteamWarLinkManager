@@ -6,7 +6,7 @@
 
     <groupId>de.chaos</groupId>
     <artifactId>swlnmngr</artifactId>
-    <version>v0.3.2</version>
+    <version>v0.3.3</version>
     <name>SteamWarLinkManager</name>
 
     <properties>

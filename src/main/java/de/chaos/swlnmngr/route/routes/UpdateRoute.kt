@@ -44,11 +44,12 @@ class UpdateRoute :Route{
                     logger.info("Inflating ${entry.name}...")
                     logger.debug("Size: ${entry.size}")
 
-                    FileOutputStream(filePath.toFile()).use {
-                        while (zis.available() == 1) {
-                            val len = zis.read(buffer)
-                            it.write(buffer, 0, len)
-                        }
+                    //Write file from Zip to file
+                    val fos = FileOutputStream(filePath.toFile())
+                    while (true) {
+                        val count = zis.read(buffer)
+                        if (count == -1) break
+                        fos.write(buffer, 0, count)
                     }
                 }
             }
