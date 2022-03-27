@@ -5,7 +5,7 @@ import de.chaos.swlnmngr.route.routes.*
 import org.apache.logging.log4j.Level
 import kotlin.system.exitProcess
 
-val ROUTES :List<Route> = listOf(InstallRoute(), UpdateRoute(), LinkRoute(), NewRoute(), ReplRoute())
+val ROUTES :List<Route> = listOf(InstallRoute(), UpdateRoute(), LinkRoute(), NewRoute(), ReplRoute(), UpdateJarRoute())
 
 fun route(args: Array<String>): Boolean {
     for (route in ROUTES) {
