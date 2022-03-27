@@ -25,7 +25,6 @@ jobs:
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: target/SteamWarLinkManager.jar
-          asset_name: mything
+          asset_name: SteamWarLinkManager.jar
           tag: ${{ github.ref }}
           overwrite: true
-          body: "This is my release text"
