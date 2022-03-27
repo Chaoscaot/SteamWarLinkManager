@@ -21,6 +21,7 @@ class InstallRoute : Route {
     }
 
     override fun route(args: Array<out String>): Boolean {
+        Thread.sleep(200)
         var installDir: File = cliConfig.installDir
         if (!cliConfig.installDirSet) {
             installDir = File(System.getProperty("user.home", ".swlnmngr"))
