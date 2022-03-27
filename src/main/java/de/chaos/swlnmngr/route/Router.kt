@@ -5,20 +5,17 @@ import de.chaos.swlnmngr.route.routes.*
 import org.apache.logging.log4j.Level
 import kotlin.system.exitProcess
 
-val ROUTES :List<Route> = listOf(InstallRoute(), UpdateRoute(), LinkRoute(), NewRoute())
+val ROUTES :List<Route> = listOf(InstallRoute(), UpdateRoute(), LinkRoute(), NewRoute(), ReplRoute())
 
-fun route(args: Array<String>) {
+fun route(args: Array<String>): Boolean {
     for (route in ROUTES) {
         if(route.getName().lowercase() == args[0].lowercase()) {
             val rArgs :Array<String> = Array(args.size - 1) { i: Int -> args[i + 1] }
             logger.info("Running: {}", route.getName())
-            if(route.route(rArgs)) {
-                exitProcess(0)
-            } else {
-                exitProcess(1)
-            }
+            return route.route(rArgs)
         }
     }
+    return false;
 }
 
 fun printRoutes() {
