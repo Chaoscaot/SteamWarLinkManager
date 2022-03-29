@@ -46,11 +46,8 @@ class UpdateRoute :Route{
 
                     //Write file from Zip to file
                     val fos = FileOutputStream(filePath.toFile())
-                    while (true) {
-                        val count = zis.read(buffer)
-                        if (count == -1) break
-                        fos.write(buffer, 0, count)
-                    }
+                    zis.transferTo(fos)
+                    fos.close()
                 }
             }
         }
